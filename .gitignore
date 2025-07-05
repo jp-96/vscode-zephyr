@@ -169,3 +169,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# zephyr custom build directory
+#   This is the build directory for Zephyr projects, which can be customized.
+#   > west config build.dir-fmt "builds/{board}"
+/builds
