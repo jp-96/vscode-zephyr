@@ -23,7 +23,14 @@
 			"settings": {
 			},
 			// Add the IDs of extensions you want installed when the container is created.
+			// - Developing with Zephyr » Tools and IDEs » Visual Studio Code
+			//   https://docs.zephyrproject.org/latest/develop/tools/vscode.html
 			"extensions": [
+				"ms-vscode.cpptools-extension-pack",
+				"lextudio.restructuredtext-pack",
+				"nordic-semiconductor.nrf-kconfig",
+				"nordic-semiconductor.nrf-devicetree",
+				"trond-snekvik.gnu-mapfiles"
 			]
 		}
 	},

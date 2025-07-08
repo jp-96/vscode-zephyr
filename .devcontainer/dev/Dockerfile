@@ -39,6 +39,8 @@ RUN mkdir /home/vscode/dev/.vscode \
     && chown vscode:vscode /home/vscode/dev/.vscode
 RUN mkdir /home/vscode/.vscode-server \
     && chown vscode:vscode /home/vscode/.vscode-server
+RUN mkdir /home/vscode/dev/utils \ 
+    && chown -R vscode:vscode /home/vscode/dev/utils
 
 # Developing with Zephyr >> Getting Started Guide
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html
@@ -65,20 +67,26 @@ RUN mkdir -p /tmp/cmake-tmp \
     && rm -rf /tmp/cmake-tmp
 
 USER vscode
-WORKDIR /home/vscode/dev
 
 # Get Zephyr and install Python dependencies
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html#get-zephyr-and-install-python-dependencies
-RUN west init \
-    && west update \
-    && west zephyr-export
-# RUN west packages pip --install
-# https://github.com/zephyrproject-rtos/zephyr/issues/86236#issuecomment-2682627057
-# RUN pip3 --disable-pip-version-check --no-cache-dir install -r ./zephyr/scripts/requirements.txt
+WORKDIR /home/vscode/dev
+RUN west init && west update && west zephyr-export
 RUN west packages pip --install --ignore-venv-check
 
 # Install Zephyr SDK
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html#install-the-zephyr-sdk
-RUN cd zephyr && west sdk install
+WORKDIR /home/vscode/dev/zephyr
+RUN west sdk install
+
+# Install Node.js and microbit-universal-hex
+WORKDIR /home/vscode/dev
+ARG NODE_VERSION="lts/*"
+RUN umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1
+RUN npm install @microbit/microbit-universal-hex
 
 USER root
+
+# Copy micro:bit hex tool
+COPY ./dev/utils/uhex.sh /home/vscode/dev/utils/uhex.sh
+RUN chown -R vscode:vscode /home/vscode/dev/utils/uhex.sh && chmod +x /home/vscode/dev/utils/uhex.sh

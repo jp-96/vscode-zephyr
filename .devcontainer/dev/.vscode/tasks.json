@@ -4,55 +4,77 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "setup utils",
+            "label": "Config build.dir-fmt",
             "type": "shell",
-            "command": "sudo",
+            "command": "west",
             "args": [
-                "pip3",
-                "install",
-                "--upgrade",
+                "config",
+                "build.dir-fmt",
+                "builds/{board}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build bbc_microbit",
+            "type": "shell",
+            "command": "west",
+            "args": [
                 "build",
-                "pip",
-                "--root-user-action=ignore" // Suppress WARNING
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "build package",
-            "type": "shell",
-            "command": "sudo",
-            "args": [
-                "python",
-                "-m",
-                "build"
+                "-p",
+                "auto",
+                "-b",
+                "bbc_microbit"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/code" // Set the working directory to 'code' folder
+                "cwd": "${workspaceFolder}/zephyrproject"
             },
-            "problemMatcher": []
-        },
-        {
-            "label": "install package",
-            "type": "shell",
-            "command": "sudo",
-            "args": [
-                "pip3",
-                "install",
-                "--upgrade",
-                ".",
-                "--root-user-action=ignore" // Suppress WARNING
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/code" // Set the working directory to 'code' folder
+            "group": {
+                "kind": "build"
             },
-            "problemMatcher": []
-        },
-        {
-            "label": "rebuild",
+            "problemMatcher": [],
             "dependsOn": [
-                "setup utils",
-                "build package",
-                "install package"
+                "Config build.dir-fmt"
+            ]
+        },
+        {
+            "label": "Build bbc_microbit_v2",
+            "type": "shell",
+            "command": "west",
+            "args": [
+                "build",
+                "-p",
+                "auto",
+                "-b",
+                "bbc_microbit_v2"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/zephyrproject"
+            },
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": [],
+            "dependsOn": [
+                "Config build.dir-fmt"
+            ]
+        },
+        {
+            "type": "shell",
+            "label": "micro:bit universal HEX",
+            "command": "${workspaceFolder}/utils/uhex.sh",
+            "args": [
+                "${workspaceFolder}/zephyrproject/builds/bbc_microbit/zephyr/zephyr.hex",
+                "${workspaceFolder}/zephyrproject/builds/bbc_microbit_v2/zephyr/zephyr.hex",
+                "${workspaceFolder}/zephyrproject/builds/microbit-universal.hex"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build all",
+            "dependsOn": [
+                "Build bbc_microbit",
+                "Build bbc_microbit_v2",
+                "micro:bit universal HEX"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": [],
