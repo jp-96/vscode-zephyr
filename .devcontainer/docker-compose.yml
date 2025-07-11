@@ -14,6 +14,8 @@ services:
       - ..:/home/vscode/dev/zephyrproject:cached
       - ./dev/.vscode:/home/vscode/dev/.vscode:cached
       - /dev/bus/usb:/dev/bus/usb
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
     privileged: true
     tty: true
     command: bash

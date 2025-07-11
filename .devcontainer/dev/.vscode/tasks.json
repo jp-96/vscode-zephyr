@@ -10,8 +10,14 @@
             "args": [
                 "config",
                 "build.dir-fmt",
-                "builds/{board}"
+                "build"
             ],
+            "problemMatcher": []
+        },
+        {
+            "label": "fix-microbit-perms",
+            "type": "shell",
+            "command": "${workspaceFolder}/fix-microbit-perms.sh",
             "problemMatcher": []
         },
         {
@@ -59,23 +65,84 @@
             ]
         },
         {
+            "label": "Flash hex",
             "type": "shell",
-            "label": "micro:bit universal HEX",
+            "command": "west",
+            "args": [
+                "flash"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/zephyrproject"
+            },
+            "problemMatcher": [],
+            "dependsOn": [
+                "fix-microbit-perms"
+            ]
+        },
+        {
+            "label": "Copy bbc_microbit.hex",
+            "type": "shell",
+            "command": "cp",
+            "args": [
+                "${workspaceFolder}/zephyrproject/build/zephyr/zephyr.hex",
+                "${workspaceFolder}/zephyrproject/build/bbc_microbit.hex"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Copy bbc_microbit_v2.hex",
+            "type": "shell",
+            "command": "cp",
+            "args": [
+                "${workspaceFolder}/zephyrproject/build/zephyr/zephyr.hex",
+                "${workspaceFolder}/zephyrproject/build/bbc_microbit_v2.hex"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "micro:bit universal hex",
             "command": "node",
             "args": [
                 "${workspaceFolder}/.vscode/utils/uhex.js",
-                "${workspaceFolder}/zephyrproject/builds/bbc_microbit/zephyr/zephyr.hex",
-                "${workspaceFolder}/zephyrproject/builds/bbc_microbit_v2/zephyr/zephyr.hex",
-                "${workspaceFolder}/zephyrproject/builds/microbit-universal.hex"
+                "${workspaceFolder}/zephyrproject/build/bbc_microbit.hex",
+                "${workspaceFolder}/zephyrproject/build/bbc_microbit_v2.hex",
+                "${workspaceFolder}/zephyrproject/build/microbit-universal.hex"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "Build and flash bbc_microbit",
+            "dependsOn": [
+                "Build bbc_microbit",
+                "Flash hex"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Build and flash bbc_microbit_v2",
+            "dependsOn": [
+                "Build bbc_microbit_v2",
+                "Flash hex"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
         },
         {
             "label": "Build all",
             "dependsOn": [
                 "Build bbc_microbit",
+                "Copy bbc_microbit.hex",
                 "Build bbc_microbit_v2",
-                "micro:bit universal HEX"
+                "Copy bbc_microbit_v2.hex",
+                "micro:bit universal hex"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": [],
