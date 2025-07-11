@@ -3,17 +3,17 @@
 ARG VARIANT="3"
 FROM mcr.microsoft.com/devcontainers/python:1-${VARIANT}
 
-# [Optional] Allow the vscode user to pip install globally w/o sudo
-RUN pip3 --disable-pip-version-check --no-cache-dir install --upgrade pip
-ENV PIP_TARGET=/usr/local/pip-global
-# ENV PYTHONPATH=${PIP_TARGET}:${PYTHONPATH}
-ENV PYTHONPATH=${PIP_TARGET}
-ENV PATH=${PIP_TARGET}/bin:${PATH}
-RUN if ! cat /etc/group | grep -e "^pip-global:" > /dev/null 2>&1; then groupadd -r pip-global; fi \
-    && usermod -a -G pip-global vscode \
-    && umask 0002 && mkdir -p ${PIP_TARGET} \
-    && chown :pip-global ${PIP_TARGET} \
-    && ( [ ! -f "/etc/profile.d/00-restore-env.sh" ] || sed -i -e "s/export PATH=/export PATH=\/usr\/local\/pip-global:/" /etc/profile.d/00-restore-env.sh )
+# # [Optional] Allow the vscode user to pip install globally w/o sudo
+# RUN pip3 --disable-pip-version-check --no-cache-dir install --upgrade pip
+# ENV PIP_TARGET=/usr/local/pip-global
+# # ENV PYTHONPATH=${PIP_TARGET}:${PYTHONPATH}
+# ENV PYTHONPATH=${PIP_TARGET}
+# ENV PATH=${PIP_TARGET}/bin:${PATH}
+# RUN if ! cat /etc/group | grep -e "^pip-global:" > /dev/null 2>&1; then groupadd -r pip-global; fi \
+#     && usermod -a -G pip-global vscode \
+#     && umask 0002 && mkdir -p ${PIP_TARGET} \
+#     && chown :pip-global ${PIP_TARGET} \
+#     && ( [ ! -f "/etc/profile.d/00-restore-env.sh" ] || sed -i -e "s/export PATH=/export PATH=\/usr\/local\/pip-global:/" /etc/profile.d/00-restore-env.sh )
 
 # [Option] Install Node.js
 # ARG INSTALL_NODE="true"
@@ -39,8 +39,6 @@ RUN mkdir /home/vscode/dev/.vscode \
     && chown vscode:vscode /home/vscode/dev/.vscode
 RUN mkdir /home/vscode/.vscode-server \
     && chown vscode:vscode /home/vscode/.vscode-server
-RUN mkdir /home/vscode/dev/utils \ 
-    && chown -R vscode:vscode /home/vscode/dev/utils
 
 # Developing with Zephyr >> Getting Started Guide
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html
@@ -65,28 +63,28 @@ RUN mkdir -p /tmp/cmake-tmp \
     && ./cmake-${CMAKE_VERSION}-Linux-x86_64.sh --skip-license --prefix=/usr/local \
     && hash -r \
     && rm -rf /tmp/cmake-tmp
-
-USER vscode
+    
+WORKDIR /home/vscode/dev
 
 # Get Zephyr and install Python dependencies
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html#get-zephyr-and-install-python-dependencies
-WORKDIR /home/vscode/dev
-RUN west init && west update && west zephyr-export
-RUN west packages pip --install --ignore-venv-check
+RUN su vscode -c "west init && west update && west zephyr-export"
+RUN su vscode -c "west packages pip --install --ignore-venv-check"
+# RUN west packages pip --install --ignore-venv-check
+# RUN pip3 --disable-pip-version-check --no-cache-dir install -r zephyr/scripts/requirements.txt
 
 # Install Zephyr SDK
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html#install-the-zephyr-sdk
-WORKDIR /home/vscode/dev/zephyr
-RUN west sdk install
+RUN su vscode -c "cd zephyr && west sdk install"
 
 # Install Node.js and microbit-universal-hex
-WORKDIR /home/vscode/dev
 ARG NODE_VERSION="lts/*"
-RUN umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1
-RUN npm install @microbit/microbit-universal-hex
+RUN su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"
+RUN su vscode -c "npm install @microbit/microbit-universal-hex"
 
-USER root
-
-# Copy micro:bit hex tool
-COPY ./dev/utils/uhex.sh /home/vscode/dev/utils/uhex.sh
-RUN chown -R vscode:vscode /home/vscode/dev/utils/uhex.sh && chmod +x /home/vscode/dev/utils/uhex.sh
+# Setup tools for USB access and permission control in WSL2 with usbipd-win
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends usbutils
+COPY ./dev/scripts/fix-microbit-perms.sh /home/vscode/dev/fix-microbit-perms.sh
+RUN chmod +x /home/vscode/dev/fix-microbit-perms.sh \
+    && chown vscode:vscode /home/vscode/dev/fix-microbit-perms.sh

@@ -61,8 +61,9 @@
         {
             "type": "shell",
             "label": "micro:bit universal HEX",
-            "command": "${workspaceFolder}/utils/uhex.sh",
+            "command": "node",
             "args": [
+                "${workspaceFolder}/.vscode/utils/uhex.js",
                 "${workspaceFolder}/zephyrproject/builds/bbc_microbit/zephyr/zephyr.hex",
                 "${workspaceFolder}/zephyrproject/builds/bbc_microbit_v2/zephyr/zephyr.hex",
                 "${workspaceFolder}/zephyrproject/builds/microbit-universal.hex"

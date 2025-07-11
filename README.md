@@ -104,9 +104,50 @@ GUID                                  DEVICE
 C:\Users\dev>
 ```
 
+**udev**
+
+```bash
+sudo apt install udev
+```
+
+https://github.com/pyocd/pyOCD/blob/main/udev/50-cmsis-dap.rules
+
+```py
+# 0d28:0204 DAPLink
+SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE:="666"
+```
+
+https://qiita.com/yagshi/items/0e1f31036c9ef430a99a
+
+```py
+KERNEL=="ttyACM[0-9]*",MODE="0666"
+ATTRS{product}=="*CMSIS-DAP*", MODE="660", GROUP="plugdev", TAG+="uaccess"
+```
+
+https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules
+
+```py
+
+# AIR32F103
+ATTRS{idVendor}=="0d28", ATTRS{idProduct}=="0204", MODE="0666", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_PORT_IGNORE}="1"
+
+
+# CMSIS-DAP compatible adapters
+ATTRS{product}=="*CMSIS-DAP*", MODE="0666", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_PORT_IGNORE}="1"
+
+```
+
+```bash
+sudo cp 99-microbit.rules /etc/udev/rules.d/
+
+sudo udevadm control --reload
+```
+
 docker:
 
 ```bash
+sudo apt install udev
+
 sudo apt install usbutils
 sudo apt install usbip
 ```
