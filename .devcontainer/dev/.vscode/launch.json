@@ -6,42 +6,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) 起動",
+            "name": "Start debug",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/zephyrproject/build/zephyr/zephyr.elf",
             "args": [],
             "stopAtEntry": true,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/zephyrproject",
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/home/vscode/zephyr-sdk-0.17.2/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
             "miDebuggerArgs": "${workspaceFolder}/zephyrproject/build/zephyr/zephyr.elf -ex 'target remote :3333' -ex 'monitor halt' -ex 'monitor reset' -ex load",
-        },
-        {
-            "name": "Debug nRF51 with pyOCD",
-            "type": "cortex-debug",
-            "request": "launch",
-            "servertype": "pyocd",
-            "cwd": "${workspaceFolder}/zephyrproject",
-            "executable": "${workspaceFolder}zephyrproject/build/zephyr/zephyr.elf",
-            "device": "nrf51822",  // 使用しているnRF51の具体的なモデル
-            "gdbTarget": "localhost:3333"
+            "preLaunchTask": "Start debugserver",
+            "postDebugTask": "Stop debugserver",
         },
     ]
-}
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Debug nRF51 with pyOCD",
-      "type": "cortex-debug",
-      "request": "launch",
-      "servertype": "pyocd",
-      "cwd": "${workspaceFolder}",
-      "executable": "${workspaceFolder}/build/your-firmware.elf",
-      "device": "nrf51822",  // 使用しているnRF51の具体的なモデル
-      "gdbTarget": "localhost:3333"
-    }
-  ]
 }

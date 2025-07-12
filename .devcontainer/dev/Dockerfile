@@ -33,12 +33,11 @@ FROM mcr.microsoft.com/devcontainers/python:1-${VARIANT}
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
 
 # Create directory and set permission.
-RUN mkdir /home/vscode/dev \ 
-    && chown -R vscode:vscode /home/vscode/dev
-RUN mkdir /home/vscode/dev/.vscode \
-    && chown vscode:vscode /home/vscode/dev/.vscode
-RUN mkdir /home/vscode/.vscode-server \
-    && chown vscode:vscode /home/vscode/.vscode-server
+RUN mkdir -p /home/vscode/zephyr \
+    && mkdir -p /home/vscode/zephyr/dev \
+    && mkdir -p /home/vscode/zephyr/dev/.vscode \
+    && mkdir -p /home/vscode/zephyr/dev/.vscode-server \
+    && chown -R vscode:vscode /home/vscode/zephyr
 
 # Developing with Zephyr >> Getting Started Guide
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html
@@ -64,7 +63,7 @@ RUN mkdir -p /tmp/cmake-tmp \
     && hash -r \
     && rm -rf /tmp/cmake-tmp
     
-WORKDIR /home/vscode/dev
+WORKDIR /home/vscode/zephyr
 
 # Get Zephyr and install Python dependencies
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html#get-zephyr-and-install-python-dependencies
@@ -85,6 +84,6 @@ RUN su vscode -c "npm install @microbit/microbit-universal-hex"
 # Setup tools for USB access and permission control in WSL2 with usbipd-win
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends usbutils
-COPY ./dev/scripts/fix-microbit-perms.sh /home/vscode/dev/fix-microbit-perms.sh
-RUN chmod +x /home/vscode/dev/fix-microbit-perms.sh \
-    && chown vscode:vscode /home/vscode/dev/fix-microbit-perms.sh
+COPY ./dev/scripts/fix-microbit-perms.sh /home/vscode/zephyr/dev/fix-microbit-perms.sh
+RUN chmod +x /home/vscode/zephyr/dev/fix-microbit-perms.sh \
+    && chown vscode:vscode /home/vscode/zephyr/dev/fix-microbit-perms.sh

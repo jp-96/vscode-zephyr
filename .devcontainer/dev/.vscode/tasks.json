@@ -150,6 +150,48 @@
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
+        {
+            "label": "Start debugserver",
+            "type": "shell",
+            "command": "west",
+            "args": [
+                "debugserver"
+            ],
+            "problemMatcher": {
+                "pattern": {
+                    "regexp":
+                        "^(Info |Warn |Error):(.*)$",
+                    "severity": 1,
+                    "message": 2
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^Open On-Chip Debugger.*",
+                    "endsPattern": ".*watchpoints.*",
+                },
+            },
+            "isBackground": true,
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "terminateOldest"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "close": true,
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/zephyrproject"
+            },
+        },
+        {
+            "label": "Stop debugserver",
+            "type": "process",
+            "command": "${command:workbench.action.tasks.terminate}",
+            "args": [
+                "Start debugserver"
+            ],
+            "problemMatcher": [],
+        },
     ]
 }

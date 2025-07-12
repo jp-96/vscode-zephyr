@@ -1,7 +1,6 @@
 {
     "C_Cpp.default.compileCommands": [
-        "/home/vscode/dev/zephyrproject/builds/bbc_microbit/compile_commands.json",
-        "/home/vscode/dev/zephyrproject/builds/bbc_microbit_v2/compile_commands.json"
+        "/home/vscode/zephyr/dev/zephyrproject/build/compile_commands.json"
     ],
-    "cmake.sourceDirectory": "/home/vscode/dev/zephyrproject",
+    "cmake.sourceDirectory": "/home/vscode/zephyr/dev/zephyrproject",
 }

@@ -150,4 +150,10 @@ sudo apt install udev
 
 sudo apt install usbutils
 sudo apt install usbip
+
 ```
+
+
+## デバッガー
+
+https://blog.savoirfairelinux.com/en-ca/2025/easy-debugging-zephyr-with-vscode/
