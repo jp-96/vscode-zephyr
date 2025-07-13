@@ -35,8 +35,8 @@ FROM mcr.microsoft.com/devcontainers/python:1-${VARIANT}
 # Create directory and set permission.
 RUN mkdir -p /home/vscode/zephyr \
     && mkdir -p /home/vscode/zephyr/dev \
-    && mkdir -p /home/vscode/zephyr/dev/.vscode \
-    && mkdir -p /home/vscode/zephyr/dev/.vscode-server \
+    # && mkdir -p /home/vscode/zephyr/dev/.vscode \
+    # && mkdir -p /home/vscode/zephyr/dev/.vscode-server \
     && chown -R vscode:vscode /home/vscode/zephyr
 
 # Developing with Zephyr >> Getting Started Guide
@@ -87,3 +87,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 COPY ./dev/scripts/fix-microbit-perms.sh /home/vscode/zephyr/dev/fix-microbit-perms.sh
 RUN chmod +x /home/vscode/zephyr/dev/fix-microbit-perms.sh \
     && chown vscode:vscode /home/vscode/zephyr/dev/fix-microbit-perms.sh
+COPY ./dev/scripts/launch-debugserver.sh /home/vscode/zephyr/dev/launch-debugserver.sh
+RUN chmod +x /home/vscode/zephyr/dev/launch-debugserver.sh \
+    && chown vscode:vscode /home/vscode/zephyr/dev/launch-debugserver.sh

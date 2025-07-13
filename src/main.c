@@ -71,7 +71,8 @@ int main(void)
 
 	/* Display countdown from '9' to '0' */
 	mb_display_print(disp, MB_DISPLAY_MODE_SINGLE,
-			 1 * MSEC_PER_SEC, "9876543210");
+			//  1 * MSEC_PER_SEC, "9876543210");
+			 1 * MSEC_PER_SEC, "abcdefghij");
 	k_sleep(K_SECONDS(11));
 
 	/* Iterate through all pixels one-by-one */

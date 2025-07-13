@@ -85,7 +85,7 @@
             "command": "cp",
             "args": [
                 "${workspaceFolder}/zephyrproject/build/zephyr/zephyr.hex",
-                "${workspaceFolder}/zephyrproject/build/bbc_microbit.hex"
+                "${workspaceFolder}/zephyrproject/microbit-v1.hex"
             ],
             "problemMatcher": []
         },
@@ -95,7 +95,7 @@
             "command": "cp",
             "args": [
                 "${workspaceFolder}/zephyrproject/build/zephyr/zephyr.hex",
-                "${workspaceFolder}/zephyrproject/build/bbc_microbit_v2.hex"
+                "${workspaceFolder}/zephyrproject/microbit-v2.hex"
             ],
             "problemMatcher": []
         },
@@ -105,9 +105,9 @@
             "command": "node",
             "args": [
                 "${workspaceFolder}/.vscode/utils/uhex.js",
-                "${workspaceFolder}/zephyrproject/build/bbc_microbit.hex",
-                "${workspaceFolder}/zephyrproject/build/bbc_microbit_v2.hex",
-                "${workspaceFolder}/zephyrproject/build/microbit-universal.hex"
+                "${workspaceFolder}/zephyrproject/microbit-v1.hex",
+                "${workspaceFolder}/zephyrproject/microbit-v2.hex",
+                "${workspaceFolder}/zephyrproject/microbit-universal.hex"
             ],
             "problemMatcher": []
         },
@@ -150,48 +150,6 @@
                 "kind": "build",
                 "isDefault": true
             }
-        },
-        {
-            "label": "Start debugserver",
-            "type": "shell",
-            "command": "west",
-            "args": [
-                "debugserver"
-            ],
-            "problemMatcher": {
-                "pattern": {
-                    "regexp":
-                        "^(Info |Warn |Error):(.*)$",
-                    "severity": 1,
-                    "message": 2
-                },
-                "background": {
-                    "activeOnStart": true,
-                    "beginsPattern": "^Open On-Chip Debugger.*",
-                    "endsPattern": ".*watchpoints.*",
-                },
-            },
-            "isBackground": true,
-            "runOptions": {
-                "instanceLimit": 1,
-                "instancePolicy": "terminateOldest"
-            },
-            "presentation": {
-                "reveal": "silent",
-                "close": true,
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/zephyrproject"
-            },
-        },
-        {
-            "label": "Stop debugserver",
-            "type": "process",
-            "command": "${command:workbench.action.tasks.terminate}",
-            "args": [
-                "Start debugserver"
-            ],
-            "problemMatcher": [],
         },
     ]
 }

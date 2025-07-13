@@ -16,7 +16,7 @@ const [,, V1_HEX, V2_HEX, OUT] = process.argv;
 
 const v1 = V1_HEX || './builds/bbc_microbit/zephyr/zephyr.hex';
 const v2 = V2_HEX || './builds/bbc_microbit_v2/zephyr/zephyr.hex';
-const out = OUT || './builds/microbit-universal.hex';
+const out = OUT || './microbit-universal.hex';
 
 console.log('🧩 Generating Universal HEX...');
 console.log('  V1_HEX:', v1);
