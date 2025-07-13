@@ -1,3 +1,6 @@
 {
-    "cmake.sourceDirectory": "/home/vscode/zephyr/dev/zephyrproject"
+    "cmake.configureOnOpen": false,
+    "C_Cpp.default.compileCommands": [
+        "${workspaceFolder}/zephyrproject/build/compile_commands.json"
+    ],
 }

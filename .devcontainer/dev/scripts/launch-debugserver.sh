@@ -4,7 +4,7 @@
 cd "/home/vscode/zephyr/dev/"
 
 echo "[INFO] Running permission fix script..."
-fix-microbit-perms.sh
+./fix-microbit-perms.sh
 
 echo "[INFO] Launching west debugserver..."
 cd zephyrproject

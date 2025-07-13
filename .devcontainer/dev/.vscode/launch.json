@@ -16,7 +16,7 @@
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "/home/vscode/zephyr-sdk-0.17.2/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
+            "miDebuggerPath": "/home/vscode/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
             "setupCommands": [
                 { "description": "Load ELF manually", "text": "file ${workspaceFolder}/zephyrproject/build/zephyr/zephyr.elf" },
                 { "description": "Connect to GDB server", "text": "target remote :3333" },
@@ -37,7 +37,7 @@
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "/home/vscode/zephyr-sdk-0.17.2/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
+            "miDebuggerPath": "/home/vscode/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
             "setupCommands": [
                 { "description": "Load ELF manually", "text": "file ${workspaceFolder}/zephyrproject/build/zephyr/zephyr.elf" },
                 { "description": "Connect to GDB server", "text": "target remote :3333" },

@@ -74,7 +74,7 @@ RUN su vscode -c "west packages pip --install --ignore-venv-check"
 
 # Install Zephyr SDK
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html#install-the-zephyr-sdk
-RUN su vscode -c "cd zephyr && west sdk install"
+RUN su vscode -c "cd zephyr && west sdk install -d /home/vscode/zephyr-sdk"
 
 # Install Node.js and microbit-universal-hex
 ARG NODE_VERSION="lts/*"
