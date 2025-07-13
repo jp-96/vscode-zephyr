@@ -1,5 +1,38 @@
 # vscode-zephyr
-python development environment template that combines VSCode and Docker.
+
+## 🔧 Installing and Preparing usbipd-win for micro:bit Device Access via WSL2
+
+**1. Install usbipd-win**
+- Open **PowerShell (Administrator)**.
+- Run the following command to install the tool:
+
+```bash
+winget install --id=Usbipd.UsbipdWin
+```
+
+**2. Check Available USB Devices**
+- Open **Command Prompt (Administrator)**.
+- List all connectable USB devices:
+
+```bash
+usbipd list
+```
+
+- Find your micro:bit device in the list and note the `BUSID` (e.g., `1-1`, `3-2`, etc).
+
+**3. Bind the micro:bit Device**
+- Bind the device to WSL2 using its BUSID:
+
+```bash
+usbipd bind --busid <BUSID>
+```
+
+- Replace `<BUSID>` with the actual value from step 2.
+
+💡 Once the device is bound, `usbipd-win` remembers it and keeps it shared across WSL sessions.
+
+---
+
 
 https://docs.zephyrproject.org/latest/develop/tools/vscode.html
 

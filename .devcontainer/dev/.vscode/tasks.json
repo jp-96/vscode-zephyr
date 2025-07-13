@@ -4,6 +4,30 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "fix-microbit-perms",
+            "type": "shell",
+            "command": "${workspaceFolder}/fix-microbit-perms.sh",
+            "problemMatcher": []
+        },
+        {
+            "label": "pyocd list",
+            "type": "shell",
+            "command": "pyocd",
+            "args": [
+                "list"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Available debug probes",
+            "dependsOn": [
+                "fix-microbit-perms",
+                "pyocd list"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": [],
+        },
+        {
             "label": "Config build.dir-fmt",
             "type": "shell",
             "command": "west",
@@ -12,12 +36,6 @@
                 "build.dir-fmt",
                 "build"
             ],
-            "problemMatcher": []
-        },
-        {
-            "label": "fix-microbit-perms",
-            "type": "shell",
-            "command": "${workspaceFolder}/fix-microbit-perms.sh",
             "problemMatcher": []
         },
         {
