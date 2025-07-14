@@ -6,7 +6,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(v1) Build and Launch",
+            "name": "(GDB) micro:bit",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/zephyrproject/build/zephyr/zephyr.elf",
@@ -23,29 +23,9 @@
                 { "description": "Reset and halt", "text": "monitor reset halt" },
                 { "description": "Load program", "text": "load" }
             ],
-            "debugServerPath": "${workspaceFolder}/launch-debugserver.sh",
-            "preLaunchTask": "Build bbc_microbit",
-        },
-        {
-            "name": "(v2) Build and Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/zephyrproject/build/zephyr/zephyr.elf",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/zephyrproject",
-            "environment": [],
-            "externalConsole": true,
-            "MIMode": "gdb",
-            "miDebuggerPath": "/home/vscode/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
-            "setupCommands": [
-                { "description": "Load ELF manually", "text": "file ${workspaceFolder}/zephyrproject/build/zephyr/zephyr.elf" },
-                { "description": "Connect to GDB server", "text": "target remote :3333" },
-                { "description": "Reset and halt", "text": "monitor reset halt" },
-                { "description": "Load program", "text": "load" }
-            ],
-            "debugServerPath": "${workspaceFolder}/launch-debugserver.sh",
-            "preLaunchTask": "Build bbc_microbit_v2",
+            "debugServerPath": "${workspaceFolder}/scripts/microbit-toolchain.sh",
+            "debugServerArgs": "debugserver auto ${workspaceFolder}/zephyrproject",
+            "preLaunchTask": "(internal) build",
         },
     ]
 }

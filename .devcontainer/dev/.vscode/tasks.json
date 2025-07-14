@@ -4,101 +4,33 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "fix-microbit-perms",
+            "label": "(internal) build bbc_microbit",
             "type": "shell",
-            "command": "${workspaceFolder}/fix-microbit-perms.sh",
-            "problemMatcher": []
-        },
-        {
-            "label": "pyocd list",
-            "type": "shell",
-            "command": "pyocd",
-            "args": [
-                "list"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Available debug probes",
-            "dependsOn": [
-                "fix-microbit-perms",
-                "pyocd list"
-            ],
-            "dependsOrder": "sequence",
-            "problemMatcher": [],
-        },
-        {
-            "label": "Config build.dir-fmt",
-            "type": "shell",
-            "command": "west",
-            "args": [
-                "config",
-                "build.dir-fmt",
-                "build"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Build bbc_microbit",
-            "type": "shell",
-            "command": "west",
+            "command": "${workspaceFolder}/scripts/microbit-toolchain.sh",
             "args": [
                 "build",
-                "-p",
-                "auto",
-                "-b",
-                "bbc_microbit"
+                "bbc_microbit",
             ],
             "options": {
                 "cwd": "${workspaceFolder}/zephyrproject"
             },
-            "group": {
-                "kind": "build"
-            },
             "problemMatcher": [],
-            "dependsOn": [
-                "Config build.dir-fmt"
-            ]
         },
         {
-            "label": "Build bbc_microbit_v2",
+            "label": "(internal) build bbc_microbit_v2",
             "type": "shell",
-            "command": "west",
+            "command": "${workspaceFolder}/scripts/microbit-toolchain.sh",
             "args": [
                 "build",
-                "-p",
-                "auto",
-                "-b",
-                "bbc_microbit_v2"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/zephyrproject"
-            },
-            "group": {
-                "kind": "build"
-            },
-            "problemMatcher": [],
-            "dependsOn": [
-                "Config build.dir-fmt"
-            ]
-        },
-        {
-            "label": "Flash hex",
-            "type": "shell",
-            "command": "west",
-            "args": [
-                "flash"
+                "bbc_microbit_v2",
             ],
             "options": {
                 "cwd": "${workspaceFolder}/zephyrproject"
             },
             "problemMatcher": [],
-            "dependsOn": [
-                "fix-microbit-perms"
-            ]
         },
         {
-            "label": "Copy bbc_microbit.hex",
+            "label": "(internal) copy bbc_microbit.hex",
             "type": "shell",
             "command": "cp",
             "args": [
@@ -108,7 +40,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Copy bbc_microbit_v2.hex",
+            "label": "(internal) copy bbc_microbit_v2.hex",
             "type": "shell",
             "command": "cp",
             "args": [
@@ -118,11 +50,11 @@
             "problemMatcher": []
         },
         {
+            "label": "(internal) micro:bit universal hex",
             "type": "shell",
-            "label": "micro:bit universal hex",
             "command": "node",
             "args": [
-                "${workspaceFolder}/.vscode/utils/uhex.js",
+                "${workspaceFolder}/scripts/uhex.js",
                 "${workspaceFolder}/zephyrproject/microbit-v1.hex",
                 "${workspaceFolder}/zephyrproject/microbit-v2.hex",
                 "${workspaceFolder}/zephyrproject/microbit-universal.hex"
@@ -130,44 +62,64 @@
             "problemMatcher": []
         },
         {
-            "label": "Build and flash bbc_microbit",
-            "dependsOn": [
-                "Build bbc_microbit",
-                "Flash hex"
-            ],
-            "dependsOrder": "sequence",
-            "problemMatcher": [],
-            "group": {
-                "kind": "build"
-            }
-        },
-        {
-            "label": "Build and flash bbc_microbit_v2",
-            "dependsOn": [
-                "Build bbc_microbit_v2",
-                "Flash hex"
-            ],
-            "dependsOrder": "sequence",
-            "problemMatcher": [],
-            "group": {
-                "kind": "build"
-            }
-        },
-        {
-            "label": "Build all",
-            "dependsOn": [
-                "Build bbc_microbit",
-                "Copy bbc_microbit.hex",
-                "Build bbc_microbit_v2",
-                "Copy bbc_microbit_v2.hex",
-                "micro:bit universal hex"
-            ],
-            "dependsOrder": "sequence",
-            "problemMatcher": [],
+            "label": "Generate micro:bit universal hex",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "dependsOn": [
+                "(internal) build bbc_microbit",
+                "(internal) copy bbc_microbit.hex",
+                "(internal) build bbc_microbit_v2",
+                "(internal) copy bbc_microbit_v2.hex",
+                "(internal) micro:bit universal hex"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": [],
+        },
+        {
+            "label": "(internal) build",
+            "group": {
+                "kind": "build"
+            },
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/microbit-toolchain.sh",
+            "args": [
+                "build",
+                "auto",
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/zephyrproject"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "(internal) flash",
+            "group": {
+                "kind": "build"
+            },
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/microbit-toolchain.sh",
+            "args": [
+                "flash",
+                "auto",
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/zephyrproject"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Build and flash",
+            "group": {
+                "kind": "build",
+            },
+            "dependsOn": [
+                "(internal) build",
+                "(internal) flash",
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
         },
     ]
 }
