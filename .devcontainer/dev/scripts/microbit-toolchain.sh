@@ -31,8 +31,8 @@ if [[ "$BOARD_ARG" == "auto" || "$MODE" == "debugserver" ]]; then
   while IFS= read -r line; do
     for id in "${TARGETS[@]}"; do
       if [[ "$line" == *"$id"* ]]; then
-        BUS=$(printf "%03d" "$(echo "$line" | awk '{print $2}')")
-        DEV=$(printf "%03d" "$(echo "$line" | awk '{gsub(":", "", $4); print $4}')")
+        BUS=$(echo "$line" | awk '{print $2}')
+        DEV=$(echo "$line" | awk '{gsub(":", "", $4); print $4}')
         DEV_PATH="/dev/bus/usb/$BUS/$DEV"
 
         echo "🔌 micro:bit detected at $DEV_PATH"
