@@ -1,37 +1,46 @@
 # vscode-zephyr
 
-## 🔧 Installing and Preparing usbipd-win for micro:bit Device Access via WSL2
+## 🛠 Zephyr Development for micro:bit
 
-**1. Install usbipd-win**
-- Open **PowerShell (Administrator)**.
-- Run the following command to install the tool:
+- `Generate micro:bit universal hex`: Builds a HEX file compatible with both micro:bit v1 and v2  
+- `Build and flash`: Compiles firmware and flashes it to the device  
+- `(GDB) micro:bit`: Launches GDB debugger for firmware inspection and debugging
+
+## 🔧 Setting Up usbipd-win for micro:bit Access via WSL2
+
+**1. Install usbipd-win**  
+- Open **PowerShell (Administrator)** and run:
 
 ```bash
 winget install --id=Usbipd.UsbipdWin
 ```
 
-**2. Check Available USB Devices**
-- Open **Command Prompt (Administrator)**.
-- List all connectable USB devices:
+**2. List Available USB Devices**  
+- Open **Command Prompt (Administrator)** and run:
 
 ```bash
 usbipd list
 ```
 
-- Find your micro:bit device in the list and note the `BUSID` (e.g., `1-1`, `3-2`, etc).
+- Identify your micro:bit and note the `BUSID` (e.g., `1-1`, `3-2`)
 
-**3. Bind the micro:bit Device**
-- Bind the device to WSL2 using its BUSID:
+**3. Bind the Device to WSL2**  
+- Run:
 
 ```bash
 usbipd bind --busid <BUSID>
 ```
 
-- Replace `<BUSID>` with the actual value from step 2.
+- Replace `<BUSID>` with the actual value from step 2  
+💡 Once bound, the device remains shared across WSL sessions
 
-💡 Once the device is bound, `usbipd-win` remembers it and keeps it shared across WSL sessions.
+**4. Attach the Device in WSL**  
+- Run `microbit_attach.bat`
+
+
 
 ---
+
 
 
 https://docs.zephyrproject.org/latest/develop/tools/vscode.html
