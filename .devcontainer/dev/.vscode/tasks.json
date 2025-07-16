@@ -104,7 +104,7 @@
             "problemMatcher": [],
         },
         {
-            "label": "Build and flash",
+            "label": "Build and Flash",
             "group": {
                 "kind": "build",
                 // "isDefault": true,

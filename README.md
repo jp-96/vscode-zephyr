@@ -1,5 +1,164 @@
 # vscode-zephyr
 
+This repository provides a **setup guide for developing micro:bit v1/v2 applications using Zephyr RTOS in a Windows + WSL2 + Docker environment**. Flashing and debugging via CMSIS-DAP is also supported through `usbipd-win`.
+
+## 📦 Target Environment
+
+| Component         | Description                                                                 |
+|------------------|-----------------------------------------------------------------------------|
+| Boards            | `bbc_microbit` (v1), `bbc_microbit_v2` (v2)                                 |
+| OS                | Windows 11 with WSL2                                                        |
+| IDE               | Visual Studio Code                                                          |
+| Container Runtime | Docker Desktop for Windows                                                  |
+| USB Bridge        | [usbipd-win](https://github.com/dorssel/usbipd-win)                         |
+| Debug Probe       | CMSIS-DAP (micro:bit built-in support)                                      |
+
+---
+
+## 🔧 Setup Instructions
+
+Install the following tools on your Windows 11 system:
+
+- Git  
+- Docker Desktop for Windows  
+- usbipd-win  
+- Visual Studio Code  
+
+Open this project in VS Code and connect to the container environment.
+
+---
+
+## ⚙️ Building the Sample Code
+
+From VS Code, open the menu:  
+**Terminal → Run Build Task...**  
+Select `Generate micro:bit universal hex`.
+
+This builds for both v1 and v2 boards, producing a single `microbit-universal.hex` file.
+
+To flash the sample code, drag and drop this file onto the micro:bit drive using Windows File Explorer.
+
+---
+
+## 🐞 Flashing and Debugging via CMSIS-DAP
+
+You can flash or debug directly from VS Code without manually generating a hex file.
+
+### 🔗 Binding the USB Device
+
+1. Connect the micro:bit via USB.  
+2. Run Command Prompt as Administrator.  
+3. List USB devices:
+   ```bash
+   usbipd list
+   ```
+4. Identify the micro:bit by its `VID:PID` value: `0d28:0204`.  
+5. Bind the device using its BUSID:
+   ```bash
+   usbipd bind --busid <BUSID>
+   ```
+
+### 📎 Attaching the USB Device
+
+After binding, the micro:bit must be attached each time it is reconnected via USB.
+
+Run the included `microbit_attach.bat` on Windows to make the device accessible from the container via CMSIS-DAP.
+
+---
+
+### ⚡ Build and Flash
+
+From VS Code:  
+**Terminal → Run Build Task... → Build and Flash**
+
+This will build the project and automatically flash it to the connected micro:bit via CMSIS-DAP.
+
+---
+
+### 🧪 Debugging
+
+From VS Code:  
+**Run and Debug (Ctrl + Shift + D) → (GDB) micro:bit**
+
+You can set breakpoints and step through the code execution in the debugger.
+
+---
+
+Let me know if you'd like to include example output, add troubleshooting notes, or introduce task.json customization tips. I’ve got your back!
+
+
+
+
+# vscode-zephyr
+
+このリポジトリは、**Zephyr RTOSを使って micro:bit v1/v2 の開発を Windows + WSL2 + Docker 環境で行うためのセットアップガイド**です。CMSIS-DAP経由での書き込み／デバッグも usbipd-win を介して可能です。
+
+## 📦 対象環境
+
+| 項目                  | 内容                                       |
+|-----------------------|--------------------------------------------|
+| 対象ボード             | `bbc_microbit`（v1）, `bbc_microbit_v2`（v2） |
+| OS                    | Windows 11 + WSL2               |
+| IDE                   | Visual Studio Code                         |
+| コンテナランタイム     | Docker Desktop for Windows                 |
+| USBブリッジ           | [usbipd-win](https://github.com/dorssel/usbipd-win) |
+| デバッグプローブ      | CMSIS-DAP（micro:bit標準対応）             |
+
+---
+
+## 🔧 セットアップ手順
+
+次のツールをWindows11にインストールします。
+
+- git
+- docker desktop for windows
+- usbipd-win
+- vscode
+
+vscodeで本プロジェクトを開き、コンテナーに接続します。
+
+## サンプルコードのビルド
+
+vscodeのメニュー Terminal > Run Build Task... で、`Generate micro:bit universal hex`を実行します。
+v1/v2のビルドが行われ、`microbit-universal.hex`ファイルが生成されます。
+
+この`microbit-universal.hex`ファイルをWindows上のエクスプローラーで、micro:bitドライブへ書き込むとmicro:bit本体でサンプルプログラムが実行されます。
+
+## サンプルコードの書き込みとデバッグ
+
+hexファイルを生成せずに、`CMSIS-DAP`によりVSCODE上で直接書き込んだり、デバッグしたりすることが可能です。
+
+### USBデバイスのBIND
+
+micro:bitをUSB接続し、Windowsのコマンドプロンプトを管理者として実行します。
+
+接続されているUSBデバイスを一覧表示します。
+```bash
+usbipd list
+```
+
+`VID:PID`が`0d28:0204`であるmicro:bitの`BUSID`を確認し、次のコマンドで`BUSID`を指定してバインドします。
+```bash
+usbipd bind --busid <BUSID>
+```
+
+### USBデバイスのATTACH
+
+Windows上で、本プロジェクトの`microbit_attach.bat`を実行し、micro:bitをアタッチします。
+成功すると、コンテナ内から、`CMSIS-DAP`経由で、micro:bitへの接続が可能になります。
+
+### ビルドと書き込み
+
+vscodeのメニュー Terminal > Run Build Task... で、`Build and Flash`を実行します。
+ビルド後、接続されているmicro:bitデバイスへ`CMSIS-DAP`経由で書き込みが行われます。
+
+### デバッグ
+
+vscodeの`Run and Debug (Ctrl + Shift + D)`で、`(GDB) micro:bit`を開始すると、サンプルコードをデバッグ実行できます。
+ブレークポイントを設定しておけば、そこで実行を一時停止することが可能です。
+
+
+
 ## 🛠 Zephyr Development for micro:bit
 
 - `Generate micro:bit universal hex`: Builds a HEX file compatible with both micro:bit v1 and v2  
