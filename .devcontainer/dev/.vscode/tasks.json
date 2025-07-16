@@ -65,7 +65,7 @@
             "label": "Generate micro:bit universal hex",
             "group": {
                 "kind": "build",
-                "isDefault": true
+                // "isDefault": true,
             },
             "dependsOn": [
                 "(internal) build bbc_microbit",
@@ -79,9 +79,6 @@
         },
         {
             "label": "(internal) build",
-            "group": {
-                "kind": "build"
-            },
             "type": "shell",
             "command": "${workspaceFolder}/scripts/microbit-toolchain.sh",
             "args": [
@@ -95,9 +92,6 @@
         },
         {
             "label": "(internal) flash",
-            "group": {
-                "kind": "build"
-            },
             "type": "shell",
             "command": "${workspaceFolder}/scripts/microbit-toolchain.sh",
             "args": [
@@ -110,9 +104,10 @@
             "problemMatcher": [],
         },
         {
-            "label": "Build and flash",
+            "label": "Build and Flash",
             "group": {
                 "kind": "build",
+                // "isDefault": true,
             },
             "dependsOn": [
                 "(internal) build",

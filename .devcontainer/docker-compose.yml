@@ -10,6 +10,8 @@ services:
         VARIANT: "3.12"
         # Update 'CMAKE_VERSION' to pick a specific version of CMake: 3.20.5, 3.21.1, 4.0.3
         CMAKE_VERSION: "3.20.5"
+        # Update 'MANIFEST_REVISION' to pick a specific version of Zephyr: main, v4.1.0, v4.0.0
+        MANIFEST_REVISION: "main"
     volumes:
       - ..:/home/vscode/zephyr/dev/zephyrproject:cached
       - ./dev/.vscode:/home/vscode/zephyr/dev/.vscode:cached
