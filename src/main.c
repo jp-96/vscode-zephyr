@@ -59,6 +59,8 @@ static const struct mb_image animation[] = {
 
 int main(void)
 {
+	struct mb_display *disp = mb_display_get();
+	int x, y;
 
 	/* Note: the k_sleep() calls after mb_display_print() and
 	 * mb_display_image() are not normally needed since the APIs
@@ -67,12 +69,9 @@ int main(void)
 	 * through this single main function.
 	 */
 
-	struct mb_display *disp = mb_display_get();
-	int x, y;
 	/* Display countdown from '9' to '0' */
 	mb_display_print(disp, MB_DISPLAY_MODE_SINGLE,
-			//  1 * MSEC_PER_SEC, "9876543210");
-			 1 * MSEC_PER_SEC, "abcdefghij");
+			 1 * MSEC_PER_SEC, "9876543210");
 	k_sleep(K_SECONDS(11));
 
 	/* Iterate through all pixels one-by-one */
