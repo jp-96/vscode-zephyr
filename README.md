@@ -14,8 +14,6 @@ This repository provides a **setup guide for developing micro:bit v1/v2 applicat
 | USB Bridge        | [usbipd-win](https://github.com/dorssel/usbipd-win)                         |
 | Debug Probe       | CMSIS-DAP (micro:bit built-in support)                                      |
 
----
-
 ## 🔧 Setup Instructions
 
 Install the following tools on your Windows 11 system:
@@ -27,8 +25,6 @@ Install the following tools on your Windows 11 system:
 
 Open this project in VS Code and connect to the container environment.
 
----
-
 ## ⚙️ Building the Sample Code
 
 From VS Code, open the menu:  
@@ -38,6 +34,8 @@ Select `Generate micro:bit universal hex`.
 This builds for both v1 and v2 boards, producing a single `microbit-universal.hex` file.
 
 To flash the sample code, drag and drop this file onto the micro:bit drive using Windows File Explorer.
+
+> 📝 The included sample is based on the official Zephyr repository: [microbit/display](https://github.com/zephyrproject-rtos/zephyr/tree/main/samples/boards/bbc/microbit/display)
 
 ---
 
@@ -65,16 +63,12 @@ After binding, the micro:bit must be attached each time it is reconnected via US
 
 Run the included `microbit_attach.bat` on Windows to make the device accessible from the container via CMSIS-DAP.
 
----
-
 ### ⚡ Build and Flash
 
 From VS Code:  
 **Terminal → Run Build Task... → Build and Flash**
 
 This will build the project and automatically flash it to the connected micro:bit via CMSIS-DAP.
-
----
 
 ### 🧪 Debugging
 
