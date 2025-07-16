@@ -2,12 +2,13 @@
 
 set -e  # Exit immediately if any command fails
 
-MODE="$1"        # Operation mode: build, flash, debugserver
-BOARD_ARG="$2"   # Target board: bbc_microbit | bbc_microbit_v2 | auto
-WORK_DIR="${3:-$(pwd)}"  # optional project dir
-TARGETS=("0d28:0204")  # USB vendor:product ID for micro:bit detection
-TARGET_V1="nrf51" # nrf51822 - micro:bit v1
-TARGET_V2="nrf52" # nrf52833 - micro:bit v2
+MODE="$1"                 # Operation mode: build, flash, debugserver
+BOARD_ARG="$2"            # Target board: bbc_microbit | bbc_microbit_v2 | auto
+WORK_DIR="${3:-$(pwd)}"   # optional project dir
+
+USB_IDS=("0d28:0204")     # USB vendor:product ID for micro:bit detection
+TARGET_V1="nrf51"         # nrf51822 - micro:bit v1
+TARGET_V2="nrf52"         # nrf52833 - micro:bit v2
 
 # Validate mode
 if [[ "$MODE" != "build" && "$MODE" != "flash" && "$MODE" != "debugserver" ]]; then
@@ -29,7 +30,7 @@ cd $WORK_DIR || { echo "❌ Failed to change directory to $WORK_DIR"; exit 1; }
 # Step 1: Detect micro:bit USB device and set permission
 if [[ "$BOARD_ARG" == "auto" || "$MODE" == "debugserver" ]]; then
   while IFS= read -r line; do
-    for id in "${TARGETS[@]}"; do
+    for id in "${USB_IDS[@]}"; do
       if [[ "$line" == *"$id"* ]]; then
         BUS=$(echo "$line" | awk '{print $2}')
         DEV=$(echo "$line" | awk '{gsub(":", "", $4); print $4}')
